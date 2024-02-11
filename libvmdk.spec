@@ -1,7 +1,6 @@
 #
 # Conditional build:
-%bcond_without	python	# Python bindings (any)
-%bcond_without	python2	# CPython 2.x bindings
+%bcond_without	python	# Python (3) bindings
 %bcond_without	python3	# CPython 3.x bindings
 #
 %if %{without python}
@@ -25,13 +24,13 @@
 Summary:	Library to access the VMware Virtual Disk (VMDK) format
 Summary(pl.UTF-8):	Biblioteka dostępu do formatu VMware Virtual Disk (VMDK)
 Name:		libvmdk
-Version:	20221124
+Version:	20231123
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 #Source0Download: https://github.com/libyal/libvmdk/releases
 Source0:	https://github.com/libyal/libvmdk/releases/download/%{version}/%{name}-alpha-%{version}.tar.gz
-# Source0-md5:	c61f05d917f4634a40c92613ce1de7f8
+# Source0-md5:	5989ffa55f771e794ad0aa19398369ec
 URL:		https://github.com/libyal/libvmdk/
 BuildRequires:	autoconf >= 2.71
 BuildRequires:	automake >= 1.6
@@ -51,7 +50,6 @@ BuildRequires:	libfvalue-devel >= %{libfvalue_ver}
 BuildRequires:	libfuse-devel >= 2.6
 BuildRequires:	libuna-devel >= %{libuna_ver}
 BuildRequires:	libtool >= 2:2
-%{?with_python2:BuildRequires:	python-devel >= 1:2.5}
 %{?with_python3:BuildRequires:	python3-devel >= 1:3.2}
 BuildRequires:	zlib-devel >= 1.2.5
 Requires:	libbfio >= %{libbfio_ver}
@@ -167,18 +165,6 @@ Tools to support the VMware Virtual Disk (VMDK) format.
 %description tools -l pl.UTF-8
 Narzędzia obsługujące format VMware Virtual Disk (VMDK).
 
-%package -n python-pyvmdk
-Summary:	Python 2 bindings for libvmdk library
-Summary(pl.UTF-8):	Wiązania Pythona 2 do biblioteki libvmdk
-Group:		Libraries/Python
-Requires:	%{name} = %{version}-%{release}
-
-%description -n python-pyvmdk
-Python 2 bindings for libvmdk library.
-
-%description -n python-pyvmdk -l pl.UTF-8
-Wiązania Pythona 2 do biblioteki libvmdk.
-
 %package -n python3-pyvmdk
 Summary:	Python 3 bindings for libvmdk library
 Summary(pl.UTF-8):	Wiązania Pythona 3 do biblioteki libvmdk
@@ -202,8 +188,8 @@ Wiązania Pythona 3 do biblioteki libvmdk.
 %{__autoheader}
 %{__automake}
 %configure \
-	%{?with_python2:--enable-python2} \
-	%{?with_python3:--enable-python3}
+	PYTHON_VERSION=3 \
+	%{?with_python3:--enable-python}
 %{__make}
 
 %install
@@ -215,9 +201,6 @@ rm -rf $RPM_BUILD_ROOT
 # obsoleted by pkg-config
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libvmdk.la
 
-%if %{with python2}
-%{__rm} $RPM_BUILD_ROOT%{py_sitedir}/pyvmdk.{la,a}
-%endif
 %if %{with python3}
 %{__rm} $RPM_BUILD_ROOT%{py3_sitedir}/pyvmdk.{la,a}
 %endif
@@ -251,12 +234,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/vmdkinfo
 %attr(755,root,root) %{_bindir}/vmdkmount
 %{_mandir}/man1/vmdkinfo.1*
-
-%if %{with python2}
-%files -n python-pyvmdk
-%defattr(644,root,root,755)
-%attr(755,root,root) %{py_sitedir}/pyvmdk.so
-%endif
 
 %if %{with python3}
 %files -n python3-pyvmdk
