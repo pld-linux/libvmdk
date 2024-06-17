@@ -4,7 +4,6 @@
 %bcond_without	python3	# CPython 3.x bindings
 #
 %if %{without python}
-%undefine	with_python2
 %undefine	with_python3
 %endif
 # see m4/${libname}.m4 />= for required version of particular library
@@ -24,13 +23,13 @@
 Summary:	Library to access the VMware Virtual Disk (VMDK) format
 Summary(pl.UTF-8):	Biblioteka dostępu do formatu VMware Virtual Disk (VMDK)
 Name:		libvmdk
-Version:	20240303
+Version:	20240510
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 #Source0Download: https://github.com/libyal/libvmdk/releases
 Source0:	https://github.com/libyal/libvmdk/releases/download/%{version}/%{name}-alpha-%{version}.tar.gz
-# Source0-md5:	9175bb55f0ee7f086185f9a7802a77e6
+# Source0-md5:	7a305fae6be6aeabd82cdf84b48c5a0c
 URL:		https://github.com/libyal/libvmdk/
 BuildRequires:	autoconf >= 2.71
 BuildRequires:	automake >= 1.6
@@ -47,7 +46,8 @@ BuildRequires:	libcthreads-devel >= %{libcthreads_ver}
 BuildRequires:	libfcache-devel >= %{libfcache_ver}
 BuildRequires:	libfdata-devel >= %{libfdata_ver}
 BuildRequires:	libfvalue-devel >= %{libfvalue_ver}
-BuildRequires:	libfuse-devel >= 2.6
+# or libfuse >= 2.6
+BuildRequires:	libfuse3-devel >= 3.0
 BuildRequires:	libuna-devel >= %{libuna_ver}
 BuildRequires:	libtool >= 2:2
 %{?with_python3:BuildRequires:	python3-devel >= 1:3.2}
@@ -157,7 +157,7 @@ Summary:	Tools to support the VMware Virtual Disk (VMDK) format
 Summary(pl.UTF-8):	Narzędzia obsługujące format VMware Virtual Disk (VMDK)
 Group:		Applications/File
 Requires:	%{name} = %{version}-%{release}
-Requires:	libfuse >= 2.6
+Requires:	libfuse3 >= 3.0
 
 %description tools
 Tools to support the VMware Virtual Disk (VMDK) format.
