@@ -24,7 +24,7 @@ Summary:	Library to access the VMware Virtual Disk (VMDK) format
 Summary(pl.UTF-8):	Biblioteka dostępu do formatu VMware Virtual Disk (VMDK)
 Name:		libvmdk
 Version:	20240510
-Release:	1
+Release:	2
 License:	LGPL v3+
 Group:		Libraries
 #Source0Download: https://github.com/libyal/libvmdk/releases
